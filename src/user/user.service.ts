@@ -30,7 +30,6 @@ export class UserService {
 
     // hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log({ hashedPassword });
 
     // create the user object
     const newUser = {
