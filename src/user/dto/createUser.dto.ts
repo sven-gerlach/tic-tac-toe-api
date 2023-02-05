@@ -1,5 +1,5 @@
 export class CreateUserDto {
   email: string;
   password: string;
-  'password-confirmation': string;
+  password_confirmation: string;
 }
