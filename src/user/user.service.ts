@@ -1,51 +1,67 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { UserInterface } from './interface/user.interface';
 import { Error } from '../util/error';
 import * as bcrypt from 'bcrypt';
+import { InjectModel } from '@nestjs/mongoose';
+import { User, UserDocument } from './schema/user.schema';
+import { Model } from 'mongoose';
+import { CreateUserDto } from './dto/createUser.dto';
 
 @Injectable()
 export class UserService {
-  private idCounter = 0;
-  private readonly users: UserInterface[] = [];
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  findOne(email: string): UserInterface | undefined {
-    return this.users.find((user) => user.email === email);
+  /**
+   * Retrieve and return an existing user by their email.
+   * @param email
+   */
+  async findOne(email: string): Promise<User | null> {
+    const user = await this.userModel.findOne({ email });
+    return user ? user.toObject() : null;
   }
 
-  async createOne(
-    email: string,
-    password: string,
-    passwordConfirmation: string,
-  ): Promise<Omit<UserInterface, 'password'> | Error | undefined> {
+  /**
+   * Create, store, and return a new user object.
+   * @param email
+   * @param password
+   * @param passwordConfirmation
+   */
+  async createOne({
+    email,
+    password,
+    password_confirmation: passwordConfirmation,
+  }: CreateUserDto): Promise<Omit<User, 'password'> | Error | undefined> {
     // return error if email already exists
-    const existingUser = this.findOne(email);
+    const existingUser = await this.findOne(email);
     if (existingUser) {
       return new Error(HttpStatus.BAD_REQUEST, 'The user already exists');
     }
 
-    // check that passwords match
+    // check that password and passwordConfirmation match
     if (password !== passwordConfirmation) {
       return new Error(HttpStatus.BAD_REQUEST, 'The passwords do not match');
     }
 
-    // hash the password
+    // hash the provided password
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // create the user object
     const newUser = {
-      _id: this.idCounter,
       email: email,
       password: hashedPassword,
     };
 
     // store user object with hashed password
-    this.users.push(newUser);
-
-    // increase idCounter
-    this.idCounter += 1;
+    const createdUser = new this.userModel(newUser);
+    createdUser.save();
 
     // return user excluding password key
-    const { password: hash, ...rest } = newUser;
-    return rest;
+    // reassign password to hash because password is already a variable (see function parameters)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return createdUser.toObject({
+      transform: (doc, ret) => {
+        delete ret.password;
+        return ret;
+      },
+    });
   }
 }
