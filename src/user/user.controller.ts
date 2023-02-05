@@ -11,12 +11,9 @@ export class UserController {
 
   @Post('create')
   signUp(@Body() createUserDto: CreateUserDto) {
-    console.log(createUserDto);
-    const { email, password, password_confirmation: passwordConfirmation } = createUserDto;
-    console.log({ email, password, passwordConfirmation });
-
+    // return any errors thrown in the service module (e.g. user already exists)
     try {
-      return this.userService.createOne(email, password, passwordConfirmation);
+      return this.userService.createOne(createUserDto);
     } catch (error) {
       return error;
     }
