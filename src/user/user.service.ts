@@ -1,5 +1,5 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import { Error } from '../util/error';
+import { CustomError } from '../util/customError';
 import * as bcrypt from 'bcrypt';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
@@ -29,16 +29,16 @@ export class UserService {
     email,
     password,
     password_confirmation: passwordConfirmation,
-  }: CreateUserDto): Promise<Omit<User, 'password'> | Error | undefined> {
+  }: CreateUserDto): Promise<Omit<User, 'password'> | CustomError | undefined> {
     // return error if email already exists
     const existingUser = await this.findOne(email);
     if (existingUser) {
-      return new Error(HttpStatus.BAD_REQUEST, 'The user already exists');
+      return new CustomError(HttpStatus.BAD_REQUEST, 'The user already exists');
     }
 
     // check that password and passwordConfirmation match
     if (password !== passwordConfirmation) {
-      return new Error(HttpStatus.BAD_REQUEST, 'The passwords do not match');
+      return new CustomError(HttpStatus.BAD_REQUEST, 'The passwords do not match');
     }
 
     // hash the provided password
