@@ -14,9 +14,9 @@ export class UserService {
    * Retrieve and return an existing user by their email.
    * @param email
    */
-  async findOne(email: string): Promise<User | null> {
+  async findOne(email: string): Promise<User | undefined> {
     const user = await this.userModel.findOne({ email });
-    return user ? user.toObject() : null;
+    return user ? user.toObject() : undefined;
   }
 
   /**
@@ -51,8 +51,8 @@ export class UserService {
     };
 
     // store user object with hashed password
-    const createdUser = new this.userModel(newUser);
-    createdUser.save();
+    const createdUser = await this.userModel.create(newUser);
+    await createdUser.save();
 
     // return user excluding password key
     // reassign password to hash because password is already a variable (see function parameters)
