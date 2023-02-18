@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  heartbeat(): string {
+    return 'This route always returns a heartbeat with status 200 OK';
   }
 }
