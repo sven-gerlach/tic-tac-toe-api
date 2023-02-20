@@ -15,13 +15,15 @@ import GameModule from './game/game.module';
   providers: [AppService],
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: path.resolve(process.cwd(), '.env.dev') }),
-    MongooseModule.forRoot(
-      process.env.MONGO_URI
-        ? process.env.MONGO_URI
-        : (() => {
-            throw new Error('MongoDB URI string failed to load');
-          })(),
-    ),
+    MongooseModule.forRootAsync({
+      useFactory: () => ({
+        uri: process.env.MONGO_URI
+          ? process.env.MONGO_URI
+          : () => {
+              throw new Error('MongoDB URI string failed to load');
+            },
+      }),
+    }),
     AuthModule,
     UserModule,
     GameModule,
