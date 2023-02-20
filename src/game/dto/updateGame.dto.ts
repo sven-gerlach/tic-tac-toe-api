@@ -1,5 +1,5 @@
 import { IsBoolean, IsString, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
+import {Transform, Type} from 'class-transformer';
 
 class Cell {
   @IsString()
@@ -14,6 +14,7 @@ export default class UpdateGameDto {
   @Type(() => Cell)
   cell: Cell;
 
+  @Transform(({ value: over }) => [true, 'true'].includes(over))
   @IsBoolean()
   over: boolean;
 }
