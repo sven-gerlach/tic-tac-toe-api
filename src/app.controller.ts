@@ -6,7 +6,7 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @HttpCode(200)
-  @Get()
+  @Get('heartbeat')
   heartbeat(): string {
     return this.appService.heartbeat();
   }
