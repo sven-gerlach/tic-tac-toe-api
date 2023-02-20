@@ -19,7 +19,17 @@ async function bootstrap() {
   app.useLogger(app.get(Logger));
 
   // set global validation pipe
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      forbidUnknownValues: true,
+      transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
+    }),
+  );
 
   await app.listen(port, () => console.log(`Server listening on port ${port}`));
 }
