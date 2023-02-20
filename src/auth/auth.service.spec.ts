@@ -79,6 +79,7 @@ describe('AuthService', () => {
       email: faker.internet.email(),
       password: faker.internet.password(),
       token: faker.random.alphaNumeric(10),
+      games: [],
     };
     const newPassword = faker.internet.password();
 

@@ -8,14 +8,13 @@ import * as path from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as process from 'process';
 import { LoggerModule } from 'nestjs-pino';
+import GameModule from './game/game.module';
 
 @Module({
   controllers: [AppController],
   providers: [AppService],
   imports: [
     ConfigModule.forRoot({ isGlobal: true, envFilePath: path.resolve(process.cwd(), '.env.dev') }),
-    AuthModule,
-    UserModule,
     MongooseModule.forRoot(
       process.env.MONGO_URI
         ? process.env.MONGO_URI
@@ -23,6 +22,9 @@ import { LoggerModule } from 'nestjs-pino';
             throw new Error('MongoDB URI string failed to load');
           })(),
     ),
+    AuthModule,
+    UserModule,
+    GameModule,
     LoggerModule.forRoot(),
   ],
 })
