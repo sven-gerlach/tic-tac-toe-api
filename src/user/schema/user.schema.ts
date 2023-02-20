@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { Game, GameSchema } from '../../game/schema/game.schema';
 
 @Schema()
 export class User {
@@ -11,6 +12,9 @@ export class User {
 
   @Prop()
   token: string;
+
+  @Prop({ type: [GameSchema] })
+  games: Game[];
 }
 
 export type UserDocument = HydratedDocument<User>;
