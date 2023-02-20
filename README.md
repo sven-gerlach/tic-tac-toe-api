@@ -13,7 +13,7 @@ merge into main results in a new deployment. The main branch is deployed at this
 
 ## Important URLs
 
-- [Deployed API](https://tictactoeapi-env.eba-hpiuzwz2.us-east-1.elasticbeanstalk.com/)
+- [Deployed API](https://ti-sq80.onrender.com)
 - [Deployed Client](https://main.d2fre69usz6no8.amplifyapp.com)
 
 ## Configurations
