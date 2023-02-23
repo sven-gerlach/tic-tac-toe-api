@@ -8,11 +8,11 @@
 
 ## Deployment
 
-The app is deployed on Render. Every push or merge into the main branch will initiate a deployment. Initially the app was deployed on AWS Beanstalk but the pricing of an always on server would have been about $6 per month.
+The app is deployed on Render under the URL https://tic-tac-toe-api-bveg.onrender.com. Every push or merge into the main branch will initiate a deployment. Initially the app was deployed on AWS Beanstalk but the pricing of an always on server would have been about $6 per month.
 
 ## Important URLs
 
-- [Deployed API](https://ti-sq80.onrender.com)
+- [Deployed API](https://tic-tac-toe-api-bveg.onrender.com)
 - [Deployed Client](https://main.d2fre69usz6no8.amplifyapp.com)
 
 ## Configurations
