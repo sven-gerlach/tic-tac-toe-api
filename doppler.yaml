@@ -1,0 +1,3 @@
+setup:
+  project: tic-tac-toe-api
+  config: dev
