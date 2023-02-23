@@ -8,8 +8,7 @@
 
 ## Deployment
 
-This app is deployed on AWS Elastic Beanstalk. A CI/CD pipeline is set up for the main branch such that any push or
-merge into main results in a new deployment. The main branch is deployed at this [URL](http://tictactoeapi-env.eba-hpiuzwz2.us-east-1.elasticbeanstalk.com/).
+The app is deployed on Render. Every push or merge into the main branch will initiate a deployment. Initially the app was deployed on AWS Beanstalk but the pricing of an always on server would have been about $6 per month.
 
 ## Important URLs
 
@@ -20,6 +19,5 @@ merge into main results in a new deployment. The main branch is deployed at this
 
 ### Environment Variables
 
-All environment variables are stored in Doppler. However, due to Doppler's integration into Elastic Beanstalk being
-tricky, Doppler is used as the source of truth but variables are not injected into the dev nor the prod environment. For
-dev the [.env.dev](.env.dev) file is used and for prod the variables are copied into the Elastic Beanstalk env var settings.
+All environment variables are stored in Doppler. For development, Doppler injects env vars into the environment via the 'doppler run' command which is prepended to the `npm run start:dev` script.
+For the deployed app, a Doppler integration into Render injects all env vars into the runtime environment.

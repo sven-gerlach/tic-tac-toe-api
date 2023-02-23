@@ -3,8 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
-import { ConfigModule } from '@nestjs/config';
-import * as path from 'path';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as process from 'process';
 import { LoggerModule } from 'nestjs-pino';
@@ -14,7 +12,6 @@ import GameModule from './game/game.module';
   controllers: [AppController],
   providers: [AppService],
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, envFilePath: path.resolve(process.cwd(), '.env.dev') }),
     MongooseModule.forRootAsync({
       useFactory: () => ({
         uri: process.env.MONGO_URI
