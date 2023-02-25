@@ -3,6 +3,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = (options, webpack) => {
   return {
     ...options,
+    entry: './src/serverless.ts',
     optimization: {
       minimizer: [
         new TerserPlugin({
