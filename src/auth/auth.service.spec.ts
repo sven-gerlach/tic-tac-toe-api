@@ -5,7 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../user/schema/user.schema';
 import { getModelToken } from '@nestjs/mongoose';
 import { faker } from '@faker-js/faker';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { HttpException } from '@nestjs/common';
 
 describe('AuthService', () => {
