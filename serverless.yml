@@ -1,0 +1,30 @@
+org: svengerlach
+app: tic-tac-toe-api
+# Source: https://docs.nestjs.com/faq/serverless
+
+service: tic-tac-toe-api
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  deploymentMethod: direct
+  stage: prod
+  region: us-east-1
+
+functions:
+  main:
+    handler: dist/main.handler
+    environment:
+      CORS_ORIGIN: ${env:CORS_ORIGIN}
+      JWT_SECRET: ${env:JWT_SECRET}
+      MONGO_URI: ${env:MONGO_URI}
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

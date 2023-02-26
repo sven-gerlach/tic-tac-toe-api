@@ -1,12 +1,13 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as process from 'process';
 import { Logger } from 'nestjs-pino';
 import { ValidationPipe } from '@nestjs/common';
+import { Callback, Context, Handler } from 'aws-lambda';
+import serverlessExpress from '@vendia/serverless-express';
 
-async function bootstrap() {
-  const port = process.env.PORT || 3000;
+let server: Handler;
 
+async function bootstrap(): Promise<Handler> {
   // enable buffering of logs
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
@@ -27,7 +28,12 @@ async function bootstrap() {
     }),
   );
 
-  await app.listen(port, () => console.log(`Server listening on port ${port}`));
+  await app.init();
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
 }
 
-bootstrap();
+export const handler: Handler = async (event: any, context: Context, callback: Callback) => {
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};
