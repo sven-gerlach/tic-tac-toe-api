@@ -21,7 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "test:e2e:watch": "jest --config ./test/jest-e2e.json --watch",
     "deploy": "npm ci && npm run build",
-    "deploy:serverless": "doppler run -c prod -- serverless deploy --verbose"
+    "deploy:serverless": "doppler run -c prod -- serverless deploy --verbose --force"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
