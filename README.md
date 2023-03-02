@@ -17,7 +17,8 @@ Setting up CI/CD via connecting Serverless Dashboard with GutHub was attempted t
 Instead, deploying needs to happen with the npm script `npm run deploy:serverless`.
 
 ### Render
-The app is also deployed on Render under the URL https://tic-tac-toe-api-bveg.onrender.com. Render's CI/CD pipeline is set up such that any push or merge into the main branch effects an auto-deployment.
+The app was also deployed on Render. However, Render's free tier uses ephemeral server instances that shut down after some time of inactivity. Whilst that is fine in principle, 
+it takes anywhere between 15-30 seconds for the instance to spin up again, leading to rather long wait times. That was the main reason for looking into serverless architecture.
 
 ### AWS Beanstalk
 Initially, the app was deployed on AWS Beanstalk. However, the pricing of an always-on live server amounted to ~$7 per month.
